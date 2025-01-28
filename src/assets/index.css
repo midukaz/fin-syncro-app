@@ -1,7 +1,9 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
- 
+
+/* Seus estilos globais aqui */
+
 @layer base {
   :root {
     --background: 0 0% 100%;

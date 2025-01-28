@@ -1,7 +1,5 @@
 <template>
-  <div class="min-h-screen max-w-screen">
-    <router-view></router-view>
-  </div>
+  <router-view></router-view>
 </template>
 
 <script>
