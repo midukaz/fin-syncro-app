@@ -30,45 +30,33 @@ const handleLogout = () => {
   <header class="bg-white/80 backdrop-blur-lg sticky top-0 z-50 border-b border-gray-100">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <nav class="h-16 flex items-center justify-between">
-        <!-- Logo e Links Principais -->
-        <div class="flex items-center space-x-8">
+        <!-- Logo -->
+        <div class="flex items-center">
           <button 
             @click="navegarPara('/')" 
-            class="text-2xl font-bold text-blue-600 flex items-center hover:opacity-90 transition-opacity"
+            class="text-xl sm:text-2xl font-bold text-blue-600 flex items-center hover:opacity-90 transition-opacity"
           >
-            <Icon icon="material-symbols:dashboard" class="w-8 h-8 mr-2" />
-            Dashboard
+            <Icon icon="material-symbols:dashboard" class="w-7 h-7 sm:w-8 sm:h-8 mr-2" />
+            <span class="hidden sm:inline">Dashboard</span>
           </button>
-          
-          <!-- Links de Navegação -->
-          <div class="hidden md:flex items-center space-x-2">
-            <button 
-              @click="navegarPara('/')" 
-              class="nav-button group" 
-              :class="{ 'active-nav': route.path === '/' }"
-            >
-              <Icon icon="material-symbols:home-rounded" class="w-5 h-5 mr-2 group-hover:scale-110 transition-transform" />
-              Início
-            </button>
-            
-            <button 
-              @click="navegarPara('/notas')" 
-              class="nav-button group" 
-              :class="{ 'active-nav': route.path === '/notas' }"
-            >
-              <Icon icon="material-symbols:note-stack-rounded" class="w-5 h-5 mr-2 group-hover:scale-110 transition-transform" />
-              Notas
-            </button>
-            
-            <button 
-              @click="navegarPara('/financas')" 
-              class="nav-button group" 
-              :class="{ 'active-nav': route.path === '/financas' }"
-            >
-              <Icon icon="material-symbols:payments-rounded" class="w-5 h-5 mr-2 group-hover:scale-110 transition-transform" />
-              Finanças
-            </button>
-          </div>
+        </div>
+
+        <!-- Links de Navegação Desktop -->
+        <div class="hidden md:flex items-center space-x-2">
+          <button 
+            v-for="(item, index) in [
+              { path: '/', icon: 'material-symbols:home-rounded', label: 'Início' },
+              { path: '/notas', icon: 'material-symbols:note-stack-rounded', label: 'Notas' },
+              { path: '/financas', icon: 'material-symbols:payments-rounded', label: 'Finanças' }
+            ]"
+            :key="index"
+            @click="navegarPara(item.path)"
+            class="nav-button group"
+            :class="{ 'active-nav': route.path === item.path }"
+          >
+            <Icon :icon="item.icon" class="w-5 h-5 mr-2 group-hover:scale-110 transition-transform" />
+            {{ item.label }}
+          </button>
         </div>
 
         <!-- Menu do Usuário -->
@@ -143,7 +131,7 @@ const handleLogout = () => {
   @apply w-full flex items-center justify-between px-4 py-2.5 text-left hover:bg-gray-50 transition-colors;
 }
 
-/* Animação do dropdown */
+/* Animações */
 .dropdown-enter-active,
 .dropdown-leave-active {
   transition: all 0.2s ease-in-out;

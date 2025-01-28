@@ -17,7 +17,6 @@ const router = createRouter({
     {
       path: '/',
       component: DefaultLayout,
-      meta: { requiresAuth: true },
       children: [
         {
           path: '',
@@ -25,17 +24,17 @@ const router = createRouter({
           component: () => import('@/views/Home.vue')
         },
         {
-          path: '/notas',
+          path: 'notas',
           name: 'notas',
           component: () => import('@/views/Notas.vue')
         },
         {
-          path: '/financas',
+          path: 'financas',
           name: 'financas',
           component: () => import('@/views/Financas.vue')
         },
         {
-          path: '/perfil',
+          path: 'perfil',
           name: 'perfil',
           component: () => import('@/views/Perfil.vue')
         }
@@ -46,15 +45,19 @@ const router = createRouter({
 
 // Proteção das rotas
 router.beforeEach((to, from, next) => {
+  const publicPages = ['/login', '/register']
+  const authRequired = !publicPages.includes(to.path)
   const isAuthenticated = !!localStorage.getItem('userToken')
-  
-  if (to.matched.some(record => record.meta.requiresAuth) && !isAuthenticated) {
-    next('/login')
-  } else if (to.path === '/login' && isAuthenticated) {
-    next('/')
-  } else {
-    next()
+
+  if (authRequired && !isAuthenticated) {
+    return next('/login')
   }
+
+  if (isAuthenticated && publicPages.includes(to.path)) {
+    return next('/')
+  }
+
+  next()
 })
 
 export default router
