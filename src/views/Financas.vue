@@ -103,234 +103,255 @@ const formatarMoeda = (valor) => {
 </script>
 
 <template>
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-    <!-- Cabeçalho -->
-    <div class="flex justify-between items-center mb-8">
-      <h1 class="text-3xl font-bold text-gray-900">Finanças</h1>
-      <button
-        @click="abrirModal('criar')"
-        class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors flex items-center"
-      >
-        <Icon icon="fa-solid:plus" class="mr-2" />
-        Nova Transação
-      </button>
-    </div>
+  <main class="min-h-screen bg-white/50 pt-36">
+    <div class="max-w-4xl mx-auto px-4 py-8">
+      <!-- Cabeçalho -->
+      <div class="text-center mb-16">
+        <h1 class="text-4xl font-bold text-emerald-900 mb-4">
+          Minhas Finanças
+        </h1>
+        <p class="text-emerald-600">
+          Controle suas receitas e despesas
+        </p>
+      </div>
 
-    <!-- Cards de Resumo -->
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-      <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
-        <div class="flex items-center justify-between">
-          <div>
-            <p class="text-sm text-gray-600">Saldo Total</p>
-            <p :class="`text-2xl font-bold ${saldo >= 0 ? 'text-green-600' : 'text-red-600'}`">
-              {{ formatarMoeda(saldo) }}
-            </p>
+      <!-- Cards de Resumo -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+        <div class="bg-white/80 backdrop-blur-sm p-6 rounded-lg border-2 border-emerald-200 hover:border-emerald-500 hover:bg-emerald-50 transition-all shadow-lg hover:shadow-emerald-200">
+          <div class="flex items-center space-x-4 mb-4">
+            <Icon icon="heroicons:banknotes" class="w-8 h-8 text-emerald-500" />
+            <h2 class="text-xl font-semibold text-emerald-900">Saldo Total</h2>
           </div>
-          <div class="p-3 bg-blue-50 rounded-lg">
-            <Icon icon="fa-solid:wallet" class="w-6 h-6 text-blue-600" />
+          <p :class="`text-2xl font-bold ${saldo >= 0 ? 'text-emerald-600' : 'text-red-600'}`">
+            {{ formatarMoeda(saldo) }}
+          </p>
+        </div>
+
+        <div class="bg-white/80 backdrop-blur-sm p-6 rounded-lg border-2 border-emerald-200 hover:border-emerald-500 hover:bg-emerald-50 transition-all shadow-lg hover:shadow-emerald-200">
+          <div class="flex items-center space-x-4 mb-4">
+            <Icon icon="heroicons:arrow-trending-up" class="w-8 h-8 text-emerald-500" />
+            <h2 class="text-xl font-semibold text-emerald-900">Receitas</h2>
           </div>
+          <p class="text-2xl font-bold text-emerald-600">
+            {{ formatarMoeda(receitas) }}
+          </p>
+        </div>
+
+        <div class="bg-white/80 backdrop-blur-sm p-6 rounded-lg border-2 border-emerald-200 hover:border-emerald-500 hover:bg-emerald-50 transition-all shadow-lg hover:shadow-emerald-200">
+          <div class="flex items-center space-x-4 mb-4">
+            <Icon icon="heroicons:arrow-trending-down" class="w-8 h-8 text-emerald-500" />
+            <h2 class="text-xl font-semibold text-emerald-900">Despesas</h2>
+          </div>
+          <p class="text-2xl font-bold text-red-600">
+            {{ formatarMoeda(despesas) }}
+          </p>
         </div>
       </div>
 
-      <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
-        <div class="flex items-center justify-between">
-          <div>
-            <p class="text-sm text-gray-600">Receitas</p>
-            <p class="text-2xl font-bold text-green-600">{{ formatarMoeda(receitas) }}</p>
-          </div>
-          <div class="p-3 bg-green-50 rounded-lg">
-            <Icon icon="fa-solid:arrow-up" class="w-6 h-6 text-green-600" />
-          </div>
-        </div>
+      <!-- Botão Nova Transação -->
+      <div class="mb-8 text-center">
+        <button
+          @click="abrirModal('criar')"
+          class="px-6 py-3 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 transition-colors flex items-center mx-auto"
+        >
+          <Icon icon="fa-solid:plus" class="mr-2" />
+          Nova Transação
+        </button>
       </div>
 
-      <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
-        <div class="flex items-center justify-between">
-          <div>
-            <p class="text-sm text-gray-600">Despesas</p>
-            <p class="text-2xl font-bold text-red-600">{{ formatarMoeda(despesas) }}</p>
-          </div>
-          <div class="p-3 bg-red-50 rounded-lg">
-            <Icon icon="fa-solid:arrow-down" class="w-6 h-6 text-red-600" />
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Lista de Transações -->
-    <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
-      <div class="overflow-x-auto">
-        <table class="w-full">
-          <thead class="bg-gray-50">
-            <tr>
-              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Data</th>
-              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Descrição</th>
-              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Categoria</th>
-              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Valor</th>
-              <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Ações</th>
-            </tr>
-          </thead>
-          <tbody class="bg-white divide-y divide-gray-200">
-            <tr v-for="transacao in transacoes" :key="transacao.id">
-              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                {{ new Date(transacao.data).toLocaleDateString() }}
-              </td>
-              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                {{ transacao.descricao }}
-              </td>
-              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                <span
-                  class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full"
-                  :class="transacao.tipo === 'receita' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'"
+      <!-- Lista de Transações -->
+      <div class="bg-white/80 backdrop-blur-sm rounded-lg border-2 border-emerald-200">
+        <div class="overflow-x-auto">
+          <table class="w-full">
+            <thead class="bg-emerald-50">
+              <tr>
+                <th class="px-6 py-3 text-left text-xs font-medium text-emerald-700 uppercase tracking-wider">Data</th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-emerald-700 uppercase tracking-wider">Descrição</th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-emerald-700 uppercase tracking-wider">Categoria</th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-emerald-700 uppercase tracking-wider">Valor</th>
+                <th class="px-6 py-3 text-right text-xs font-medium text-emerald-700 uppercase tracking-wider">Ações</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-emerald-100">
+              <tr v-for="transacao in transacoes" :key="transacao.id" class="hover:bg-emerald-50 transition-colors">
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-emerald-900">
+                  {{ new Date(transacao.data).toLocaleDateString() }}
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-emerald-900">
+                  {{ transacao.descricao }}
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm">
+                  <span
+                    class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full"
+                    :class="transacao.tipo === 'receita' ? 'bg-emerald-100 text-emerald-800' : 'bg-red-100 text-red-800'"
+                  >
+                    {{ transacao.categoria }}
+                  </span>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium"
+                  :class="transacao.tipo === 'receita' ? 'text-emerald-600' : 'text-red-600'"
                 >
-                  {{ transacao.categoria }}
-                </span>
-              </td>
-              <td class="px-6 py-4 whitespace-nowrap text-sm"
-                :class="transacao.tipo === 'receita' ? 'text-green-600' : 'text-red-600'"
+                  {{ formatarMoeda(transacao.valor) }}
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                  <button
+                    @click="abrirModal('editar', transacao)"
+                    class="text-emerald-600 hover:text-emerald-900 mr-3"
+                  >
+                    <Icon icon="fa-solid:edit" />
+                  </button>
+                  <button
+                    @click="excluirTransacao(transacao.id)"
+                    class="text-red-600 hover:text-red-900"
+                  >
+                    <Icon icon="fa-solid:trash-alt" />
+                  </button>
+                </td>
+              </tr>
+              <tr v-if="transacoes.length === 0">
+                <td colspan="5" class="px-6 py-4 text-center text-emerald-500">
+                  Nenhuma transação encontrada
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Dicas -->
+      <div class="mt-16 bg-white/60 backdrop-blur-sm p-6 rounded-lg border-2 border-emerald-200">
+        <h3 class="text-lg font-medium text-emerald-900 mb-4">Dicas Financeiras</h3>
+        <div class="space-y-4 text-emerald-700">
+          <p class="flex items-center hover:translate-x-2 transition-transform">
+            <Icon icon="heroicons:banknotes" class="w-6 h-6 text-emerald-500 mr-3" />
+            Mantenha um orçamento mensal
+          </p>
+          <p class="flex items-center hover:translate-x-2 transition-transform">
+            <Icon icon="heroicons:chart-bar" class="w-6 h-6 text-emerald-500 mr-3" />
+            Acompanhe seus gastos regularmente
+          </p>
+          <p class="flex items-center hover:translate-x-2 transition-transform">
+            <Icon icon="heroicons:arrow-path" class="w-6 h-6 text-emerald-500 mr-3" />
+            Estabeleça metas financeiras
+          </p>
+        </div>
+      </div>
+
+      <!-- Modal de Transação -->
+      <div v-if="modalAberto" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+        <div class="bg-white rounded-xl p-6 w-full max-w-lg">
+          <h3 class="text-2xl font-bold text-emerald-900 mb-4">
+            {{ modoEdicao ? 'Editar Transação' : 'Nova Transação' }}
+          </h3>
+          
+          <div class="space-y-4">
+            <div>
+              <label class="block text-sm font-medium text-emerald-700 mb-1">
+                Tipo
+              </label>
+              <div class="flex space-x-4">
+                <label class="flex items-center">
+                  <input
+                    type="radio"
+                    v-model="novaTransacao.tipo"
+                    value="receita"
+                    class="mr-2 text-emerald-600"
+                  />
+                  Receita
+                </label>
+                <label class="flex items-center">
+                  <input
+                    type="radio"
+                    v-model="novaTransacao.tipo"
+                    value="despesa"
+                    class="mr-2 text-emerald-600"
+                  />
+                  Despesa
+                </label>
+              </div>
+            </div>
+
+            <div>
+              <label class="block text-sm font-medium text-emerald-700 mb-1">
+                Descrição
+              </label>
+              <input
+                v-model="novaTransacao.descricao"
+                type="text"
+                class="w-full p-2 border border-emerald-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
+              />
+            </div>
+
+            <div>
+              <label class="block text-sm font-medium text-emerald-700 mb-1">
+                Valor
+              </label>
+              <input
+                v-model="novaTransacao.valor"
+                type="number"
+                step="0.01"
+                min="0"
+                class="w-full p-2 border border-emerald-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
+              />
+            </div>
+
+            <div>
+              <label class="block text-sm font-medium text-emerald-700 mb-1">
+                Categoria
+              </label>
+              <select
+                v-model="novaTransacao.categoria"
+                class="w-full p-2 border border-emerald-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
               >
-                {{ formatarMoeda(transacao.valor) }}
-              </td>
-              <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                <button
-                  @click="abrirModal('editar', transacao)"
-                  class="text-blue-600 hover:text-blue-900 mr-3"
+                <option value="">Selecione uma categoria</option>
+                <option
+                  v-for="categoria in categorias[novaTransacao.tipo]"
+                  :key="categoria"
+                  :value="categoria"
                 >
-                  <Icon icon="fa-solid:edit" />
-                </button>
-                <button
-                  @click="excluirTransacao(transacao.id)"
-                  class="text-red-600 hover:text-red-900"
-                >
-                  <Icon icon="fa-solid:trash-alt" />
-                </button>
-              </td>
-            </tr>
-            <tr v-if="transacoes.length === 0">
-              <td colspan="5" class="px-6 py-4 text-center text-gray-500">
-                Nenhuma transação encontrada
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
+                  {{ categoria }}
+                </option>
+              </select>
+            </div>
 
-    <!-- Modal de Transação -->
-    <div v-if="modalAberto" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-      <div class="bg-white rounded-xl p-6 w-full max-w-lg">
-        <h3 class="text-2xl font-bold mb-4">
-          {{ modoEdicao ? 'Editar Transação' : 'Nova Transação' }}
-        </h3>
-        
-        <div class="space-y-4">
-          <div>
-            <label class="block text-sm font-medium text-gray-700 mb-1">
-              Tipo
-            </label>
-            <div class="flex space-x-4">
-              <label class="flex items-center">
-                <input
-                  type="radio"
-                  v-model="novaTransacao.tipo"
-                  value="receita"
-                  class="mr-2"
-                />
-                Receita
+            <div>
+              <label class="block text-sm font-medium text-emerald-700 mb-1">
+                Data
               </label>
-              <label class="flex items-center">
-                <input
-                  type="radio"
-                  v-model="novaTransacao.tipo"
-                  value="despesa"
-                  class="mr-2"
-                />
-                Despesa
-              </label>
+              <input
+                v-model="novaTransacao.data"
+                type="date"
+                class="w-full p-2 border border-emerald-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
+              />
             </div>
           </div>
 
-          <div>
-            <label class="block text-sm font-medium text-gray-700 mb-1">
-              Descrição
-            </label>
-            <input
-              v-model="novaTransacao.descricao"
-              type="text"
-              class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-            />
-          </div>
-
-          <div>
-            <label class="block text-sm font-medium text-gray-700 mb-1">
-              Valor
-            </label>
-            <input
-              v-model="novaTransacao.valor"
-              type="number"
-              step="0.01"
-              min="0"
-              class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-            />
-          </div>
-
-          <div>
-            <label class="block text-sm font-medium text-gray-700 mb-1">
-              Categoria
-            </label>
-            <select
-              v-model="novaTransacao.categoria"
-              class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+          <div class="flex justify-end space-x-4 mt-6">
+            <button
+              @click="modalAberto = false"
+              class="px-4 py-2 text-emerald-600 hover:bg-emerald-50 rounded-lg transition-colors"
             >
-              <option value="">Selecione uma categoria</option>
-              <option
-                v-for="categoria in categorias[novaTransacao.tipo]"
-                :key="categoria"
-                :value="categoria"
-              >
-                {{ categoria }}
-              </option>
-            </select>
+              Cancelar
+            </button>
+            <button
+              @click="salvarTransacao"
+              class="px-4 py-2 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 transition-colors"
+            >
+              {{ modoEdicao ? 'Salvar Alterações' : 'Criar Transação' }}
+            </button>
           </div>
-
-          <div>
-            <label class="block text-sm font-medium text-gray-700 mb-1">
-              Data
-            </label>
-            <input
-              v-model="novaTransacao.data"
-              type="date"
-              class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-            />
-          </div>
-        </div>
-
-        <div class="flex justify-end space-x-4 mt-6">
-          <button
-            @click="modalAberto = false"
-            class="px-4 py-2 text-gray-600 hover:bg-gray-100 rounded-lg transition-colors"
-          >
-            Cancelar
-          </button>
-          <button
-            @click="salvarTransacao"
-            class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
-          >
-            {{ modoEdicao ? 'Salvar Alterações' : 'Criar Transação' }}
-          </button>
         </div>
       </div>
     </div>
-  </div>
+  </main>
 </template>
 
 <style scoped>
-/* Animações para os cards */
 .grid > * {
-  animation: fadeInUp 0.5s ease-out;
+  animation: fadeIn 0.5s ease-out;
 }
 
-@keyframes fadeInUp {
+@keyframes fadeIn {
   from {
     opacity: 0;
     transform: translateY(20px);
@@ -340,4 +361,4 @@ const formatarMoeda = (valor) => {
     transform: translateY(0);
   }
 }
-</style> 
+</style>

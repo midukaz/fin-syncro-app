@@ -27,8 +27,8 @@ const handleLogout = () => {
 </script>
 
 <template>
-  <header class="bg-white/80 backdrop-blur-lg sticky top-0 z-50 border-b border-gray-100">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+  <header class="fixed top-4 left-1/2 -translate-x-1/2 w-[95%] max-w-5xl bg-white/80 backdrop-blur-lg rounded-2xl shadow-lg border border-blue-100 z-50">
+    <div class="px-4 sm:px-6">
       <nav class="h-16 flex items-center justify-between">
         <!-- Logo -->
         <div class="flex items-center">
@@ -45,17 +45,22 @@ const handleLogout = () => {
         <div class="hidden md:flex items-center space-x-2">
           <button 
             v-for="(item, index) in [
-              { path: '/', icon: 'material-symbols:home-rounded', label: 'Início' },
-              { path: '/notas', icon: 'material-symbols:note-stack-rounded', label: 'Notas' },
-              { path: '/financas', icon: 'material-symbols:payments-rounded', label: 'Finanças' }
+              { path: '/', icon: 'material-symbols:home-rounded', label: 'Início', color: 'blue' },
+              { path: '/notas', icon: 'material-symbols:note-stack-rounded', label: 'Notas', color: 'blue' },
+              { path: '/financas', icon: 'material-symbols:payments-rounded', label: 'Finanças', color: 'blue' }
             ]"
             :key="index"
             @click="navegarPara(item.path)"
             class="nav-button group"
-            :class="{ 'active-nav': route.path === item.path }"
+            :class="[
+              route.path === item.path ? `bg-${item.color}-50 text-${item.color}-600` : '',
+              `hover:bg-${item.color}-50 hover:text-${item.color}-600`
+            ]"
           >
+          <span class="flex text-blue-500">
             <Icon :icon="item.icon" class="w-5 h-5 mr-2 group-hover:scale-110 transition-transform" />
             {{ item.label }}
+          </span>
           </button>
         </div>
 
@@ -72,7 +77,7 @@ const handleLogout = () => {
                 class="w-5 h-5 text-blue-600 group-hover:scale-110 transition-transform" 
               />
             </div>
-            <span class="hidden sm:block">Minha Conta</span>
+            <span class="hidden sm:block text-blue-500">Minha Conta</span>
             <Icon 
               icon="material-symbols:keyboard-arrow-down-rounded" 
               class="hidden sm:block w-5 h-5 ml-1 transition-transform"
@@ -83,23 +88,23 @@ const handleLogout = () => {
           <!-- Dropdown Menu -->
           <div 
             v-show="isMenuOpen"
-            class="absolute right-0 w-64 mt-2 bg-white rounded-xl shadow-lg border border-gray-100 overflow-hidden transition-all duration-200 ease-out"
+            class="absolute right-0 w-64 mt-2 bg-white/80 backdrop-blur-sm rounded-xl shadow-lg border-2 border-blue-200 overflow-hidden transition-all duration-200 ease-out"
           >
-            <div class="p-4 bg-gradient-to-br from-blue-50 to-blue-100/50 border-b border-gray-100">
-              <p class="font-medium text-gray-900">{{ userName }}</p>
-              <p class="text-sm text-gray-600">{{ userEmail }}</p>
+            <div class="p-4 bg-gradient-to-br from-blue-50 to-blue-100/50">
+              <p class="font-medium text-blue-900">{{ userName }}</p>
+              <p class="text-sm text-blue-600">{{ userEmail }}</p>
             </div>
             
             <div class="py-2">
               <button @click="navegarPara('/perfil')" class="menu-item group">
                 <div class="flex items-center">
-                  <Icon icon="material-symbols:person-outline" class="w-5 h-5 mr-2 text-gray-400" />
-                  <span>Meu Perfil</span>
+                  <Icon icon="material-symbols:person-outline" class="w-5 h-5 mr-2 text-blue-400" />
+                  <span class="text-blue-900">Meu Perfil</span>
                 </div>
-                <kbd class="hidden sm:inline-flex items-center px-2 py-0.5 text-xs font-medium text-gray-400 bg-gray-100 rounded">⌘P</kbd>
+                <kbd class="hidden sm:inline-flex items-center px-2 py-0.5 text-xs font-medium text-blue-400 bg-blue-50 rounded">⌘P</kbd>
               </button>
               
-              <button @click="handleLogout" class="menu-item text-red-600 group">
+              <button @click="handleLogout" class="menu-item text-red-600 group hover:bg-red-50">
                 <div class="flex items-center">
                   <Icon icon="material-symbols:logout-rounded" class="w-5 h-5 mr-2" />
                   <span>Sair</span>
@@ -116,11 +121,7 @@ const handleLogout = () => {
 
 <style scoped>
 .nav-button {
-  @apply flex items-center px-4 py-2 rounded-lg hover:bg-blue-50 transition-all text-gray-700 hover:text-blue-600;
-}
-
-.active-nav {
-  @apply bg-blue-50 text-blue-600;
+  @apply flex items-center px-4 py-2 rounded-lg transition-all text-gray-700;
 }
 
 .user-button {
@@ -128,7 +129,7 @@ const handleLogout = () => {
 }
 
 .menu-item {
-  @apply w-full flex items-center justify-between px-4 py-2.5 text-left hover:bg-gray-50 transition-colors;
+  @apply w-full flex items-center justify-between px-4 py-2.5 text-left hover:bg-blue-50 transition-colors;
 }
 
 /* Animações */
