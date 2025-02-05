@@ -238,105 +238,125 @@ const formatarMoeda = (valor) => {
       </div>
 
       <!-- Modal de Transação -->
-      <div v-if="modalAberto" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-        <div class="bg-white rounded-xl p-6 w-full max-w-lg">
-          <h3 class="text-2xl font-bold text-emerald-900 mb-4">
+      <div v-if="modalAberto" class="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50">
+        <div class="bg-white/80 backdrop-blur-sm rounded-2xl p-8 w-full max-w-lg border-2 border-emerald-200 shadow-xl">
+          <h3 class="text-2xl font-bold text-emerald-900 mb-6 flex items-center">
+            <Icon :icon="modoEdicao ? 'heroicons:pencil-square' : 'heroicons:plus-circle'" class="w-7 h-7 mr-2 text-emerald-600"/>
             {{ modoEdicao ? 'Editar Transação' : 'Nova Transação' }}
           </h3>
           
-          <div class="space-y-4">
+          <div class="space-y-6">
             <div>
-              <label class="block text-sm font-medium text-emerald-700 mb-1">
+              <label class="block text-sm font-medium text-emerald-700 mb-2">
                 Tipo
               </label>
-              <div class="flex space-x-4">
-                <label class="flex items-center">
+              <div class="flex space-x-6">
+                <label class="flex items-center hover:text-emerald-600 transition-colors cursor-pointer">
                   <input
                     type="radio"
                     v-model="novaTransacao.tipo"
                     value="receita"
-                    class="mr-2 text-emerald-600"
+                    class="mr-2 text-emerald-600 focus:ring-emerald-500"
                   />
+                  <Icon icon="heroicons:arrow-trending-up" class="w-5 h-5 mr-1 text-emerald-500"/>
                   Receita
                 </label>
-                <label class="flex items-center">
+                <label class="flex items-center hover:text-red-600 transition-colors cursor-pointer">
                   <input
                     type="radio"
                     v-model="novaTransacao.tipo"
                     value="despesa"
-                    class="mr-2 text-emerald-600"
+                    class="mr-2 text-red-600 focus:ring-red-500"
                   />
+                  <Icon icon="heroicons:arrow-trending-down" class="w-5 h-5 mr-1 text-red-500"/>
                   Despesa
                 </label>
               </div>
             </div>
 
             <div>
-              <label class="block text-sm font-medium text-emerald-700 mb-1">
+              <label class="block text-sm font-medium text-emerald-700 mb-2">
                 Descrição
               </label>
-              <input
-                v-model="novaTransacao.descricao"
-                type="text"
-                class="w-full p-2 border border-emerald-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
-              />
+              <div class="relative">
+                <Icon icon="heroicons:document-text" class="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-emerald-500"/>
+                <input
+                  v-model="novaTransacao.descricao"
+                  type="text"
+                  class="w-full pl-10 p-3 bg-white/50 border border-emerald-200 rounded-xl focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
+                  placeholder="Digite a descrição..."
+                />
+              </div>
             </div>
 
             <div>
-              <label class="block text-sm font-medium text-emerald-700 mb-1">
+              <label class="block text-sm font-medium text-emerald-700 mb-2">
                 Valor
               </label>
-              <input
-                v-model="novaTransacao.valor"
-                type="number"
-                step="0.01"
-                min="0"
-                class="w-full p-2 border border-emerald-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
-              />
+              <div class="relative">
+                <Icon icon="heroicons:banknotes" class="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-emerald-500"/>
+                <input
+                  v-model="novaTransacao.valor"
+                  type="number"
+                  step="0.01"
+                  min="0"
+                  class="w-full pl-10 p-3 bg-white/50 border border-emerald-200 rounded-xl focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
+                  placeholder="0,00"
+                />
+              </div>
             </div>
 
             <div>
-              <label class="block text-sm font-medium text-emerald-700 mb-1">
+              <label class="block text-sm font-medium text-emerald-700 mb-2">
                 Categoria
               </label>
-              <select
-                v-model="novaTransacao.categoria"
-                class="w-full p-2 border border-emerald-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
-              >
-                <option value="">Selecione uma categoria</option>
-                <option
-                  v-for="categoria in categorias[novaTransacao.tipo]"
-                  :key="categoria"
-                  :value="categoria"
+              <div class="relative">
+                <Icon icon="heroicons:tag" class="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-emerald-500"/>
+                <select
+                  v-model="novaTransacao.categoria"
+                  class="w-full pl-10 p-3 bg-white/50 border border-emerald-200 rounded-xl focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 appearance-none"
                 >
-                  {{ categoria }}
-                </option>
-              </select>
+                  <option value="">Selecione uma categoria</option>
+                  <option
+                    v-for="categoria in categorias[novaTransacao.tipo]"
+                    :key="categoria"
+                    :value="categoria"
+                  >
+                    {{ categoria }}
+                  </option>
+                </select>
+                <Icon icon="heroicons:chevron-down" class="absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 text-emerald-500 pointer-events-none"/>
+              </div>
             </div>
 
             <div>
-              <label class="block text-sm font-medium text-emerald-700 mb-1">
+              <label class="block text-sm font-medium text-emerald-700 mb-2">
                 Data
               </label>
-              <input
-                v-model="novaTransacao.data"
-                type="date"
-                class="w-full p-2 border border-emerald-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
-              />
+              <div class="relative">
+                <Icon icon="heroicons:calendar" class="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-emerald-500"/>
+                <input
+                  v-model="novaTransacao.data"
+                  type="date"
+                  class="w-full pl-10 p-3 bg-white/50 border border-emerald-200 rounded-xl focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
+                />
+              </div>
             </div>
           </div>
 
-          <div class="flex justify-end space-x-4 mt-6">
+          <div class="flex justify-end space-x-4 mt-8">
             <button
               @click="modalAberto = false"
-              class="px-4 py-2 text-emerald-600 hover:bg-emerald-50 rounded-lg transition-colors"
+              class="px-6 py-3 text-emerald-600 hover:bg-emerald-50 rounded-xl transition-colors flex items-center"
             >
+              <Icon icon="heroicons:x-mark" class="w-5 h-5 mr-1"/>
               Cancelar
             </button>
             <button
               @click="salvarTransacao"
-              class="px-4 py-2 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 transition-colors"
+              class="px-6 py-3 bg-emerald-600 text-white rounded-xl hover:bg-emerald-700 transition-colors flex items-center"
             >
+              <Icon :icon="modoEdicao ? 'heroicons:check' : 'heroicons:plus'" class="w-5 h-5 mr-1"/>
               {{ modoEdicao ? 'Salvar Alterações' : 'Criar Transação' }}
             </button>
           </div>

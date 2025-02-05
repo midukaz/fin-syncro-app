@@ -57,7 +57,7 @@ watch(() => props.notaInicial, (novoValor) => {
         v-model="conteudoCompleto"
         placeholder="Digite seu texto aqui..."
         rows="12"
-        class="w-full p-4 bg-white/80 border border-gray-200 rounded-lg mb-4 focus:border-indigo-400 focus:ring-1 focus:ring-indigo-200 transition-all resize-none text-lg font-bold first-line:text-2xl first-line:font-extrabold"
+        class="w-full p-4 bg-white/80 border border-gray-200 rounded-lg mb-4 focus:border-indigo-400 focus:ring-1 focus:ring-indigo-200 transition-all resize-none text-lg first-line:text-2xl first-line:font-extrabold"
       ></textarea>
 
       <div class="flex justify-end space-x-3">
