@@ -27,7 +27,7 @@ const handleLogout = () => {
 </script>
 
 <template>
-  <header class="fixed top-4 left-1/2 -translate-x-1/2 w-[95%] max-w-5xl bg-white/80 backdrop-blur-lg rounded-2xl shadow-lg border border-blue-100 z-50">
+  <header class="fixed top-4 left-1/2 -translate-x-1/2 w-[95%] max-w-5xl bg-white/80 backdrop-blur-lg rounded-2xl shadow-lg  z-50">
     <div class="px-4 sm:px-6">
       <nav class="h-16 flex items-center justify-between">
         <!-- Logo -->
@@ -45,9 +45,9 @@ const handleLogout = () => {
         <div class="hidden md:flex items-center space-x-2">
           <button 
             v-for="(item, index) in [
-              { path: '/', icon: 'material-symbols:home-rounded', label: 'Início', color: 'blue' },
-              { path: '/notas', icon: 'material-symbols:note-stack-rounded', label: 'Notas', color: 'blue' },
-              { path: '/financas', icon: 'material-symbols:payments-rounded', label: 'Finanças', color: 'blue' }
+              // { path: '/', icon: 'material-symbols:home-rounded', label: 'Início', color: 'purple', fontColor: 'text-purple-600' },
+              { path: '/notas', icon: 'material-symbols:note-stack-rounded', label: 'Notas', color: 'blue', fontColor: 'text-blue-600' },
+              { path: '/financas', icon: 'material-symbols:payments-rounded', label: 'Finanças', color: 'emerald', fontColor: 'text-emerald-600' }
             ]"
             :key="index"
             @click="navegarPara(item.path)"
@@ -57,7 +57,7 @@ const handleLogout = () => {
               `hover:bg-${item.color}-50 hover:text-${item.color}-600`
             ]"
           >
-          <span class="flex text-blue-500">
+          <span class="flex" :class="[route.path === item.path ? item.fontColor : 'text-zinc-400']">
             <Icon :icon="item.icon" class="w-5 h-5 mr-2 group-hover:scale-110 transition-transform" />
             {{ item.label }}
           </span>
@@ -71,18 +71,18 @@ const handleLogout = () => {
             class="user-button group"
             :class="{ 'bg-blue-50': isMenuOpen }"
           >
-            <div class="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center mr-2">
+            <div class="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center">
               <Icon 
                 icon="material-symbols:person" 
                 class="w-5 h-5 text-blue-600 group-hover:scale-110 transition-transform" 
               />
             </div>
-            <span class="hidden sm:block text-blue-500">Minha Conta</span>
+            <!-- <span class="hidden sm:block text-blue-500"></span>
             <Icon 
               icon="material-symbols:keyboard-arrow-down-rounded" 
               class="hidden sm:block w-5 h-5 ml-1 transition-transform"
               :class="{ 'rotate-180': isMenuOpen }"
-            />
+            /> -->
           </button>
           
           <!-- Dropdown Menu -->
@@ -90,16 +90,16 @@ const handleLogout = () => {
             v-show="isMenuOpen"
             class="absolute right-0 w-64 mt-2 bg-white/80 backdrop-blur-sm rounded-xl shadow-lg border-2 border-blue-200 overflow-hidden transition-all duration-200 ease-out"
           >
-            <div class="p-4 bg-gradient-to-br from-blue-50 to-blue-100/50">
+            <!-- <div class="p-4 bg-gradient-to-br from-blue-50 to-blue-100/50">
               <p class="font-medium text-blue-900">{{ userName }}</p>
               <p class="text-sm text-blue-600">{{ userEmail }}</p>
-            </div>
+            </div> -->
             
-            <div class="py-2">
+            <div>
               <button @click="navegarPara('/perfil')" class="menu-item group">
                 <div class="flex items-center">
                   <Icon icon="material-symbols:person-outline" class="w-5 h-5 mr-2 text-blue-400" />
-                  <span class="text-blue-900">Meu Perfil</span>
+                  <span class="text-blue-900">Meus dados</span>
                 </div>
                 <kbd class="hidden sm:inline-flex items-center px-2 py-0.5 text-xs font-medium text-blue-400 bg-blue-50 rounded">⌘P</kbd>
               </button>

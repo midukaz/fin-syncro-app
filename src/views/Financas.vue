@@ -1,6 +1,7 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import { Icon } from '@iconify/vue'
+import dadosTransacoes from '@/data/db.json'
 
 const transacoes = ref([])
 const saldo = ref(0)
@@ -24,12 +25,9 @@ const categorias = {
 }
 
 onMounted(() => {
-  // Carregar dados do localStorage ou API
-  const transacoesStorage = localStorage.getItem('transacoes')
-  if (transacoesStorage) {
-    transacoes.value = JSON.parse(transacoesStorage)
-    calcularSaldo()
-  }
+  // Carregar dados do arquivo JSON
+  transacoes.value = dadosTransacoes.transacoes
+  calcularSaldo()
 })
 
 const calcularSaldo = () => {
@@ -64,6 +62,7 @@ const abrirModal = (modo = 'criar', transacao = null) => {
 
 const salvarTransacao = () => {
   if (!novaTransacao.value.descricao || !novaTransacao.value.valor || !novaTransacao.value.categoria) {
+    alert('Por favor, preencha todos os campos')
     return
   }
 
@@ -72,19 +71,33 @@ const salvarTransacao = () => {
     if (index !== -1) {
       transacoes.value[index] = {
         ...novaTransacao.value,
-        id: transacaoSelecionada.value.id
+        id: transacaoSelecionada.value.id,
+        valor: Number(novaTransacao.value.valor)
       }
     }
   } else {
-    transacoes.value.push({
+    // Criar nova transação
+    const novaTransacaoObj = {
       ...novaTransacao.value,
       id: Date.now(),
       valor: Number(novaTransacao.value.valor)
-    })
+    }
+    
+    // Adicionar ao array de transações
+    transacoes.value.unshift(novaTransacaoObj) // usando unshift para adicionar no início da lista
   }
 
-  localStorage.setItem('transacoes', JSON.stringify(transacoes.value))
+  // Recalcular saldo
   calcularSaldo()
+  
+  // Limpar e fechar modal
+  novaTransacao.value = {
+    tipo: 'despesa',
+    descricao: '',
+    valor: '',
+    categoria: '',
+    data: new Date().toISOString().split('T')[0]
+  }
   modalAberto.value = false
 }
 

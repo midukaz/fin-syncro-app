@@ -1,0 +1,92 @@
+{
+  "transacoes": [
+    {
+      "id": 1,
+      "tipo": "receita",
+      "descricao": "Meu Salário",
+      "valor": 1844.18,
+      "categoria": "Salário",
+      "data": "2024-02-05"
+    },
+    {
+      "id": 2,
+      "tipo": "despesa",
+      "descricao": "Parcela da casa",
+      "valor": 458.51,
+      "categoria": "Moradia",
+      "data": "2024-02-04"
+    },
+    {
+      "id": 3,
+      "tipo": "despesa",
+      "descricao": "Seguro Obra",
+      "valor": 772.87,
+      "categoria": "Moradia",
+      "data": "2024-02-05"
+    },
+    {
+      "id": 4,
+      "tipo": "despesa",
+      "descricao": "Plano Malu",
+      "valor": 220.00,
+      "categoria": "Saúde",
+      "data": "2024-02-04"
+    },
+    {
+      "id": 5,
+      "tipo": "despesa",
+      "descricao": "Água",
+      "valor": 150.00,
+      "categoria": "Moradia",
+      "data": "2024-02-04"
+    },
+    {
+      "id": 6,
+      "tipo": "despesa",
+      "descricao": "Manutenção Aparelho",
+      "valor": 50.00,
+      "categoria": "Saúde",
+      "data": "2024-02-07"
+    },
+    {
+      "id": 7,
+      "tipo": "despesa",
+      "descricao": "Spotify",
+      "valor": 34.90,
+      "categoria": "Outros",
+      "data": "2024-02-04"
+    },
+    {
+      "id": 8,
+      "tipo": "receita",
+      "descricao": "Lucas (Spotify)",
+      "valor": 18.00,
+      "categoria": "Investimentos",
+      "data": "2024-02-05"
+    },
+    {
+      "id": 9,
+      "tipo": "despesa",
+      "descricao": "Cartão Crédito Nubank (Kadu)",
+      "valor": 383.80,
+      "categoria": "Outros",
+      "data": "2024-02-04"
+    },
+    {
+      "id": 10,
+      "tipo": "receita",
+      "descricao": "Ultima Parcela do Décimo",
+      "valor": 670.88,
+      "categoria": "Salário",
+      "data": "2024-02-06"
+    },
+    {
+      "id": 11,
+      "tipo": "despesa",
+      "descricao": "Cartão Crédito Nubank (Carla)",
+      "valor": 1100.00,
+      "categoria": "Outros",
+      "data": "2024-02-11"
+    }
+  ]
+} 
