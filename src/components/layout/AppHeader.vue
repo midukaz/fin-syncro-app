@@ -31,15 +31,15 @@ const handleLogout = () => {
     <div class="px-4 sm:px-6">
       <nav class="h-16 flex items-center justify-between">
         <!-- Logo -->
-        <div class="flex items-center">
+        <!-- <div class="flex items-center">
           <button 
             @click="navegarPara('/')" 
             class="text-xl sm:text-2xl font-bold text-blue-600 flex items-center hover:opacity-90 transition-opacity"
           >
             <Icon icon="material-symbols:dashboard" class="w-7 h-7 sm:w-8 sm:h-8 mr-2" />
-            <span class="hidden sm:inline">Dashboard</span>
+            <span class="hidden sm:inline"></span>
           </button>
-        </div>
+        </div> -->
 
         <!-- Links de Navegação Desktop -->
         <div class="hidden md:flex items-center space-x-2">
